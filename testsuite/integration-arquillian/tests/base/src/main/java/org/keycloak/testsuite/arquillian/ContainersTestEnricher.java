@@ -306,7 +306,7 @@ public class ContainersTestEnricher {
     }
 
     private void execCommand(String command, File dir) throws IOException, InterruptedException {
-        Process process = Runtime.getRuntime().exec(command, new String[]{"NOPAUSE=true"}, dir);
+        Process process = Runtime.getRuntime().exec(command, null, dir);
 
         if (process.waitFor(10, TimeUnit.SECONDS)) {
             if (process.exitValue() != 0) {
