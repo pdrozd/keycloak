@@ -280,7 +280,7 @@ public class ContainersTestEnricher {
         if (!alreadyInstalled && !skipInstallAdapters && isJBossBased(container)) {
             File bin = new File(jbossHomePath + "/bin");
                         
-            String command = winOs ? "cmd /c " : "/bin/sh ";
+            String command = winOs ? "cmd /c set NOPAUSE=true\n" : "/bin/sh ";
             String jbossCli = winOs ? "jboss-cli.bat" : "jboss-cli.sh";
             String adapterScript = "adapter-install.cli";
             String samlAdapterScript = "adapter-install-saml.cli";
@@ -308,10 +308,7 @@ public class ContainersTestEnricher {
     }
 
     private void execCommand(String command, File dir) throws IOException, InterruptedException {
-        Process process = Runtime.getRuntime().exec(command, null, dir);
-        BufferedInputStream in = new BufferedInputStream(process.getInputStream());
-        byte[] bytes = new byte[4096];
-        while (in.read(bytes) != -1) {}
+        Process process = Runtime.getRuntime().exec(command, null, dir);        
         if (process.waitFor(10, TimeUnit.SECONDS)) {
             if (process.exitValue() != 0) {
                 getOutput("ERROR", process.getErrorStream());
