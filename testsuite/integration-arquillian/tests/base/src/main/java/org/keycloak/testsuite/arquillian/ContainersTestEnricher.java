@@ -1,5 +1,10 @@
 package org.keycloak.testsuite.arquillian;
 
+import static org.keycloak.testsuite.auth.page.AuthRealm.ADMIN;
+import static org.keycloak.testsuite.auth.page.AuthRealm.MASTER;
+import static org.keycloak.testsuite.util.WaitUtils.pause;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +14,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.io.FileUtils;
 import org.jboss.arquillian.container.spi.Container;
 import org.jboss.arquillian.container.spi.ContainerRegistry;
 import org.jboss.arquillian.container.spi.event.StartSuiteContainers;
 import org.jboss.arquillian.container.spi.event.StopSuiteContainers;
+import org.jboss.arquillian.container.spi.event.container.AfterStart;
 import org.jboss.arquillian.container.test.api.ContainerController;
 import org.jboss.arquillian.core.api.Event;
 import org.jboss.arquillian.core.api.Instance;
@@ -22,7 +29,6 @@ import org.jboss.arquillian.core.api.annotation.Inject;
 import org.jboss.arquillian.core.api.annotation.Observes;
 import org.jboss.arquillian.test.spi.annotation.ClassScoped;
 import org.jboss.arquillian.test.spi.annotation.SuiteScoped;
-import org.jboss.arquillian.container.spi.event.container.AfterStart;
 import org.jboss.arquillian.test.spi.event.suite.BeforeClass;
 import org.jboss.arquillian.test.spi.event.suite.BeforeSuite;
 import org.jboss.logging.Logger;
@@ -31,10 +37,6 @@ import org.keycloak.models.Constants;
 import org.keycloak.testsuite.arquillian.annotation.AdapterLibsLocationProperty;
 import org.keycloak.testsuite.arquillian.annotation.AppServerContainer;
 import org.keycloak.testsuite.util.OAuthClient;
-
-import static org.keycloak.testsuite.auth.page.AuthRealm.ADMIN;
-import static org.keycloak.testsuite.auth.page.AuthRealm.MASTER;
-import static org.keycloak.testsuite.util.WaitUtils.pause;
 
 /**
  *
@@ -307,8 +309,10 @@ public class ContainersTestEnricher {
 
     private void execCommand(String command, File dir) throws IOException, InterruptedException {
         Process process = Runtime.getRuntime().exec(command, null, dir);
-
-        if (process.waitFor(20, TimeUnit.SECONDS)) {
+        BufferedInputStream in = new BufferedInputStream(process.getInputStream());
+        byte[] bytes = new byte[4096];
+        while (in.read(bytes) != -1) {}
+        if (process.waitFor(10, TimeUnit.SECONDS)) {
             if (process.exitValue() != 0) {
                 getOutput("ERROR", process.getErrorStream());
                 throw new RuntimeException("Adapter installation failed. Process exitValue: " 
