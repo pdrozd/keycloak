@@ -279,25 +279,23 @@ public class ContainersTestEnricher {
     private void installAdapters(Container container) throws InterruptedException, IOException {
         if (!alreadyInstalled && !skipInstallAdapters && isJBossBased(container)) {
             File bin = new File(jbossHomePath + "/bin");
-            String javaHome = System.getProperty("java.home");
-            String command = "java -jar " + jbossHomePath + "/bin/client/jboss-cli-client.jar"; //winOs ? "cmd /c " : "/bin/sh ";
-            String jbossCli = "";//winOs ? "jboss-cli.bat" : "jboss-cli.sh";
+            String command = "java -jar " + jbossHomePath + "/bin/client/jboss-cli-client.jar";
             String adapterScript = "adapter-install.cli";
             String samlAdapterScript = "adapter-install-saml.cli";
             String managementPort = container.getContainerConfiguration().getContainerProperties().get("managementPort");
             
             String controllerArg = " --controller=localhost:" + managementPort;            
             if (new File(bin, adapterScript).exists()) {
-                log.info("Installing adapter to app server via cli script\n\n\n\n\n");
-                execCommand(command + jbossCli + " --connect --file=" + adapterScript + controllerArg, bin);
+                log.info("Installing adapter to app server via cli script");
+                execCommand(command + " --connect --file=" + adapterScript + controllerArg, bin);
                 
             }
             if (new File(bin, samlAdapterScript).exists()) {
-                log.info("Installing saml adapter to app server via cli script\n\n\n\n\n");
-                execCommand(command + jbossCli + " --connect --file=" + samlAdapterScript + controllerArg, bin);                
+                log.info("Installing saml adapter to app server via cli script");
+                execCommand(command + " --connect --file=" + samlAdapterScript + controllerArg, bin);                
             }
-            log.info("Restarting container\n\n\n\n\n");
-            execCommand(command + jbossCli + " --connect --command=reload" + controllerArg, bin);
+            log.info("Restarting container");
+            execCommand(command + " --connect --command=reload" + controllerArg, bin);
             log.info("Container restarted");
             pause(5000);
             checkServerLog(jbossHomePath);
@@ -321,8 +319,7 @@ public class ContainersTestEnricher {
             if (process.isAlive()) {
                 process.destroyForcibly();
             }
-            //throw new RuntimeException("Timeout after 10 seconds.");
-            System.out.println("Timeout after 10 seconds.");
+            throw new RuntimeException("Timeout after 10 seconds.");            
         }
     }
 
