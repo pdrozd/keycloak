@@ -279,9 +279,9 @@ public class ContainersTestEnricher {
     private void installAdapters(Container container) throws InterruptedException, IOException {
         if (!alreadyInstalled && !skipInstallAdapters && isJBossBased(container)) {
             File bin = new File(jbossHomePath + "/bin");
-                        
-            String command = winOs ? "cmd /c set NOPAUSE=true\n" : "/bin/sh ";
-            String jbossCli = winOs ? "jboss-cli.bat" : "jboss-cli.sh";
+            String javaHome = System.getProperty("java.home");
+            String command = "java -jar " + jbossHomePath + "/bin/client/jboss-cli-client.jar"; //winOs ? "cmd /c " : "/bin/sh ";
+            String jbossCli = "";//winOs ? "jboss-cli.bat" : "jboss-cli.sh";
             String adapterScript = "adapter-install.cli";
             String samlAdapterScript = "adapter-install-saml.cli";
             String managementPort = container.getContainerConfiguration().getContainerProperties().get("managementPort");
