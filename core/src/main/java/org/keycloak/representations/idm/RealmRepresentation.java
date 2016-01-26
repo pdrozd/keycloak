@@ -244,6 +244,22 @@ public class RealmRepresentation {
     public List<ScopeMappingRepresentation> getScopeMappings() {
         return scopeMappings;
     }
+    
+    public Boolean isUserCacheEnabled() {
+        return userCacheEnabled;
+    }
+
+    public void setUserCacheEnabled(Boolean userCacheEnabled) {
+        this.userCacheEnabled = userCacheEnabled;
+    }
+    
+    public Boolean isRealmCacheEnabled() {
+        return realmCacheEnabled;
+    }
+
+    public void setRealmCacheEnabled(Boolean realmCacheEnabled) {
+        this.realmCacheEnabled = realmCacheEnabled;
+    }
 
     public ScopeMappingRepresentation scopeMapping(String username) {
         ScopeMappingRepresentation mapping = new ScopeMappingRepresentation();
