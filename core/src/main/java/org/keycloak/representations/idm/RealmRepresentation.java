@@ -818,4 +818,22 @@ public class RealmRepresentation {
         return identityProviders != null && !identityProviders.isEmpty();
     }
 
+    public Boolean isRealmCacheEnabled() {
+        return realmCacheEnabled;
+    }
+
+    public void setRealmCacheEnabled(Boolean realmCacheEnabled) {
+        this.realmCacheEnabled = realmCacheEnabled;
+    }
+
+    public Boolean isUserCacheEnabled() {
+        return userCacheEnabled;
+    }
+
+    public void setUserCacheEnabled(Boolean userCacheEnabled) {
+        this.userCacheEnabled = userCacheEnabled;
+    }
+    
+    
+
 }
