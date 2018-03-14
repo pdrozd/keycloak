@@ -232,4 +232,9 @@ public class KcSamlSignedBrokerTest extends KcSamlBrokerTest {
         Assert.assertThat(samlResponse.getSamlObject(), isSamlResponse(JBossSAMLURIConstants.STATUS_SUCCESS));
     }
 
+    @Test
+    public void newPrTest() throws Exception {
+        Assert.assertTrue(true);
+    }
+
 }
