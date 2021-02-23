@@ -227,9 +227,9 @@ public class LDAPRule extends ExternalResource {
             case VAULT_EXPRESSION:
                 config.put(LDAPConstants.BIND_CREDENTIAL, VAULT_EXPRESSION);
                 break;
-            default:
+            //default:
                 // Default to secret as the bind credential
-                config.put(LDAPConstants.BIND_CREDENTIAL, "secret");
+            //    config.put(LDAPConstants.BIND_CREDENTIAL, "secret");
         }
         switch (defaultProperties.getProperty(LDAPEmbeddedServer.PROPERTY_ENABLE_ANONYMOUS_ACCESS)) {
             case "true":
